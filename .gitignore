@@ -1,0 +1,8 @@
+node_modules/
+dist/
+deploy.local.json
+*.local.sql
+evidence/
+build/dist-snapshot.tgz
+build/src-snapshot.tgz
+build/src-snapshot.tgz

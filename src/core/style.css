@@ -1,0 +1,396 @@
+/* ===========================================================================
+   عودة / AWDA — the stylesheet.
+
+   Written RTL-first. Not "RTL-supported" — RTL-first: the logical properties
+   are the only ones used, `start` means right, and forward chevrons point LEFT.
+   An Arabic app built by mirroring a Latin one is legible and still feels
+   translated, and this audience can tell.
+
+   Nothing here knows a palette. Every colour is a var() set by theme.js from
+   src/core/palettes.js, which is the only file in the product where a colour may
+   exist. A gate in the main repo fails the build on any hex in a screen file.
+   =========================================================================== */
+
+/* ── TYPE ───────────────────────────────────────────────────────────────────
+   Three faces, and a rule that is never broken:
+   NEVER SET QURʾĀN IN THE UI FACE, AND NEVER SET UI IN THE QURʾĀN FACE.
+   The typographic separation IS the visual distinction a verse is required to
+   have — it must never be possible to mistake a verse for our own copy.
+
+   Noto Kufi Arabic  display. Geometric, architectural, engineered. Kufi is a
+                     display script by function; it is never used for body.
+   IBM Plex Sans Ar  UI and body. A naskh-based UI face, and — the reason it is
+                     the right one here rather than Cairo or Tajawal — Plex was
+                     drawn as a technical face for an engineering company, so it
+                     carries the instrument register into the body copy.
+   IBM Plex Mono     the instrument label: ALL CAPS, letterspaced, tiny. The
+                     WHOOP/Oura move, and it is what makes a screen read as
+                     measured rather than decorated.
+   Amiri Quran       Qurʾānic text ONLY. Never a button, never a heading.
+   ─────────────────────────────────────────────────────────────────────────── */
+@font-face{font-family:Kufi,'Noto Kufi Arabic',sans-serif;src:url(../../assets/fonts/notokufi-ar-400.woff2)format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Kufi,'Noto Kufi Arabic',sans-serif;src:url(../../assets/fonts/notokufi-ar-600.woff2)format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:Kufi,'Noto Kufi Arabic',sans-serif;src:url(../../assets/fonts/notokufi-ar-700.woff2)format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:Plex;src:url(../../assets/fonts/plex-ar-400.woff2)format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Plex;src:url(../../assets/fonts/plex-ar-600.woff2)format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:PlexLat;src:url(../../assets/fonts/plex-latin-400.woff2)format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;src:url(../../assets/fonts/plexmono-400.woff2)format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;src:url(../../assets/fonts/plexmono-500.woff2)format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:Quran;src:url(../../assets/fonts/amiri-quran-ar.woff2)format('woff2');font-weight:400;font-display:swap}
+
+:root{
+  /* The Major Third scale (1.333) the UAE Design System uses for Arabic. A 1.2
+     ratio reads "utility" and a 2.5rem clamp reads "editorial"; 1.333 reads
+     "document", which is what a will and a fiqh page both are. */
+  --t-xs:12px; --t-sm:14px; --t-base:16px; --t-md:19px; --t-lg:23px;
+  --t-xl:30px; --t-2xl:40px; --t-3xl:54px; --t-4xl:68px;
+  /* Arabic needs 1.5 minimum. Letters are distinguished by marks ABOVE and
+     BELOW the baseline, so tight leading collides tashkīl with the next line. */
+  --lh:1.65; --lh-tight:1.35; --lh-display:1.2;
+  --sp:8px; --gut:16px; --col:min(430px,100vw);
+  --r:20px; --r-sm:14px; --r-lg:28px; --r-pill:999px;
+  --dur:260ms; --ease:cubic-bezier(.22,1,.36,1);
+  --tap:48px;   /* every interactive target. Not 44 — this app has older users. */
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:Plex,'IBM Plex Sans Arabic',system-ui,sans-serif;
+  font-size:var(--t-base); line-height:var(--lh);
+  color:var(--ink); background:var(--bg);
+  direction:rtl; text-align:start;
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior-y:none;
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ── TYPE ROLES ──────────────────────────────────────────────────────────── */
+.display{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:700;line-height:var(--lh-display);letter-spacing:-.01em}
+.h1{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:700;font-size:var(--t-xl);line-height:var(--lh-tight);margin:0}
+.h2{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:600;font-size:var(--t-lg);line-height:var(--lh-tight);margin:0}
+.h3{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:600;font-size:var(--t-md);line-height:var(--lh-tight);margin:0}
+.body{font-size:var(--t-base);line-height:var(--lh);margin:0}
+.soft{color:var(--soft)}
+/* The instrument label. Latin/mono, uppercase, letterspaced, small.
+   Arabic does not have upper case, so the Arabic form of this label uses the
+   Kufi face at small size with tracking instead — same role, honest means. */
+.kicker{font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);display:block}
+.kicker-ar{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-size:12px;font-weight:600;letter-spacing:0;color:var(--soft);display:block}
+/* Every numeral in the product. Tabular so nothing shifts while a value ticks. */
+.n{font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1;letter-spacing:0;unicode-bidi:isolate}
+.n-hero{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:700;font-size:var(--t-4xl);line-height:1;font-variant-numeric:tabular-nums}
+.n-lg{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:700;font-size:var(--t-2xl);line-height:1.05;font-variant-numeric:tabular-nums}
+.n-md{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:600;font-size:var(--t-lg);font-variant-numeric:tabular-nums}
+
+/* ── QURʾĀNIC TEXT ───────────────────────────────────────────────────────────
+   Rules, from the research, that are not style preferences:
+   · Its own face, its own field, larger, with generous leading, and always with
+     the sūra:āya reference. It must be impossible to mistake for our copy.
+   · NEVER the label of a tappable control. A button label is UI furniture, and
+     tapping "through" a verse to get somewhere is exactly the "adornment, not
+     exhortation" failure. `.verse` refuses to be a button: pointer-events off.
+   · The basmala renders AS VERSE 1, numbered, in this same face — not as a
+     decorative header. In the Imāmī position it IS a verse of every sūra but
+     al-Barāʾa, and most Sunni-default apps get this wrong. It is invisible to
+     outsiders and Shia users notice it.
+   · Rendered pixels carry the ruling, so `body[data-quran="off"]` suppresses
+     every verse in the product — genuinely useful for a menstruating user or
+     someone without wuḍūʾ, and no app in this category offers it.           */
+.verse{font-family:Quran,'Amiri Quran',serif;font-size:var(--t-lg);line-height:2.1;color:var(--ink);
+  padding:calc(var(--sp)*2.5) calc(var(--sp)*2.5) calc(var(--sp)*2);
+  border-inline-start:2px solid var(--rule);background:var(--card2);border-radius:var(--r-sm);
+  pointer-events:none;user-select:text;margin:0}
+.verse-ref{font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.08em;color:var(--soft);display:block;margin-top:10px;pointer-events:auto}
+body[data-quran="off"] .verse{display:none}
+body[data-quran="off"] .verse-hidden-note{display:block}
+.verse-hidden-note{display:none;font-size:var(--t-sm);color:var(--soft);padding:12px 14px;border:1px dashed var(--line);border-radius:var(--r-sm)}
+
+/* ── THE SHELL ───────────────────────────────────────────────────────────── */
+#app{max-width:var(--col);margin-inline:auto;min-height:100dvh;position:relative;
+  padding-bottom:calc(76px + env(safe-area-inset-bottom));background:var(--bg)}
+
+/* THE SATURATED BLOCK. This is the structural idea the whole palette system
+   rests on: colour lives up here, in a block that carries display type only,
+   and every word the user must actually read sits on a white card below it.
+   That is why these palettes can be bright without costing a point of contrast. */
+.head{position:relative;background:var(--head);color:var(--head-ink);overflow:hidden;
+  padding:calc(env(safe-area-inset-top) + 18px) var(--gut) 56px;
+  border-end-start-radius:var(--r-lg);border-end-end-radius:var(--r-lg)}
+.head .soft,.head .kicker,.head .kicker-ar{color:var(--head-soft)}
+.head-orn{position:absolute;inset-block-start:-21%;inset-inline-end:-17%;width:72%;aspect-ratio:1;
+  color:var(--head-ink);opacity:.20;pointer-events:none}
+.head-orn svg{width:100%;height:100%}
+.orn-kufic{position:absolute;inset:0;width:100%;height:100%;color:var(--head-ink);pointer-events:none}
+.head-row{position:relative;display:flex;align-items:center;gap:12px;min-height:var(--tap)}
+.head-row .grow{flex:1}
+/* The card that overlaps the block's lower edge. Measured on Monzo, Copilot,
+   Rocket Money and Buddy: the overlap is what stops the bright block reading as
+   a banner and makes it read as the app's own ground. */
+.lift{margin-block-start:-40px;position:relative;z-index:2}
+
+.wrap{padding-inline:var(--gut)}
+.stack{display:flex;flex-direction:column;gap:12px}
+.stack-lg{display:flex;flex-direction:column;gap:20px}
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.grow{flex:1;min-width:0}
+.sec{margin-block-start:26px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-block-end:12px}
+/* المدّ: the rule grows from the RIGHT, the direction the script runs. */
+.rule{height:1px;background:var(--rule);opacity:.5;transform-origin:right center;margin-block-start:10px}
+
+/* ── CARD ────────────────────────────────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:calc(var(--sp)*2);position:relative;overflow:hidden}
+.card-flush{padding:0}
+.card2{background:var(--card2)}
+.card-tap{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform 140ms var(--ease)}
+.card-tap:active{transform:scale(.985)}
+.card-glint{background-image:linear-gradient(105deg,transparent 40%,color-mix(in srgb,var(--ink) 6%,transparent) 50%,transparent 60%);
+  background-size:220% 100%;background-position:200% 0;background-repeat:no-repeat}
+.orn-facet{position:absolute;inset:0;width:100%;height:100%;color:var(--ink);pointer-events:none}
+
+/* ── BUTTONS ─────────────────────────────────────────────────────────────── */
+.btn{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:600;font-size:var(--t-base);min-height:var(--tap);
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:0 20px;border-radius:var(--r-pill);border:1px solid transparent;cursor:pointer;
+  background:var(--acc);color:var(--acc-ink);transition:transform 140ms var(--ease),opacity 140ms}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.btn-block{width:100%}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-quiet{background:var(--card2);color:var(--ink);border-color:transparent}
+.btn-on-head{background:var(--head-ink);color:var(--head-flat)}
+/* NOT red. Red is martyrdom and vengeance, and in taʿziya convention it is the
+   villain's colour. A destructive action gets a charcoal outline instead — and
+   there is no red anywhere in this product, including here. */
+.btn-danger{background:transparent;color:var(--ink);border-color:var(--ink);border-width:1.5px}
+.btn-sm{min-height:38px;font-size:var(--t-sm);padding:0 14px}
+.icon-btn{width:var(--tap);height:var(--tap);display:grid;place-items:center;border-radius:var(--r-pill);
+  border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;flex:none}
+.head .icon-btn{background:color-mix(in srgb,var(--head-ink) 14%,transparent);border-color:color-mix(in srgb,var(--head-ink) 24%,transparent);color:var(--head-ink)}
+.ic{width:22px;height:22px;flex:none}
+.ic-lg{width:28px;height:28px}
+.ic-sm{width:18px;height:18px}
+
+/* ── TAB BAR ─────────────────────────────────────────────────────────────── */
+/* الاحتضار gets a permanent tab, and حسابي does not. Someone opens الاحتضار at
+   the worst moment of their life, possibly with no signal. It gets one tap and
+   it never moves. حسابي is a place you visit twice a year — it lives in the top
+   bar as an avatar. */
+.tabs{position:fixed;inset-block-end:0;inset-inline:0;max-width:var(--col);margin-inline:auto;z-index:40;
+  display:grid;grid-template-columns:repeat(5,1fr);
+  background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(18px);
+  border-block-start:1px solid var(--line);padding-block-end:env(safe-area-inset-bottom)}
+.tab{min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  background:none;border:0;color:var(--soft);font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-size:11px;font-weight:600;cursor:pointer;
+  padding:0;transition:color 160ms var(--ease)}
+.tab[aria-current="page"]{color:var(--acc)}
+.tab[aria-current="page"] .tab-dot{opacity:1;transform:scaleX(1)}
+.tab-dot{width:22px;height:2px;border-radius:2px;background:currentColor;opacity:0;transform:scaleX(.3);transition:all 200ms var(--ease)}
+
+/* ── PRAYER PILLS ────────────────────────────────────────────────────────────
+   Five across 358px of content is 66px each — the single hardest constraint in
+   the app. They are laid out as a 5-column grid with the Arabic name at 12px,
+   which fits الصبح الظهر العصر المغرب العشاء without truncation at 390px.
+   A ticked prayer fills with the accent. An UNTICKED one stays neutral: it never
+   turns red, never breaks a chain, never accuses. NO-GO 2 and 3.             */
+.pills{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.pill{min-height:74px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--card);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;
+  font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-size:12px;font-weight:600;color:var(--ink);padding:6px 2px;
+  transition:background 180ms var(--ease),border-color 180ms var(--ease),color 180ms var(--ease)}
+.pill .t{font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;font-size:10px;color:var(--soft);letter-spacing:.04em}
+.pill[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.pill[aria-pressed="true"] .t{color:var(--acc-ink);opacity:.8}
+.pill[data-now="1"]{border-color:var(--acc);border-style:dashed}
+.pill-check{width:16px;height:16px;opacity:0;transition:opacity 160ms}
+.pill[aria-pressed="true"] .pill-check{opacity:1}
+
+/* ── LIST / REGISTER ─────────────────────────────────────────────────────────
+   السجل. 44px rows, edge-to-edge hairlines, label right, figure left, tabular.
+   The atlas calls this the best screen in the catalogue for the qaḍāʾ ledger and
+   it is right: a debt is a register, and a register is rows.                 */
+.reg{display:flex;flex-direction:column}
+.reg-row{display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 2px;
+  border-block-end:1px solid var(--line);background:none;border-inline:0;border-block-start:0;
+  width:100%;text-align:start;color:var(--ink);font:inherit;cursor:pointer}
+.reg-row:last-child{border-block-end:0}
+.reg-row .fig{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:600;font-variant-numeric:tabular-nums;margin-inline-start:auto;unicode-bidi:isolate}
+.reg-row .ic{color:var(--soft)}
+.reg-row[data-static]{cursor:default}
+
+/* ── BENTO ───────────────────────────────────────────────────────────────────
+   الشبكة. 2 columns at 173px, 24px radius, one 2×2 hero. Designed AT 2 columns —
+   the documented failure of bento on phones is shipping a collapsed 4-column
+   desktop grid. Content in a cell must compress to a phrase or a number.     */
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:12px;grid-auto-rows:minmax(104px,auto)}
+.bento .b-hero{grid-column:span 2;grid-row:span 2}
+.bento .b-wide{grid-column:span 2}
+.bento .cell{display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+
+/* ── SHELF ───────────────────────────────────────────────────────────────── */
+.shelf{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding-inline:var(--gut);margin-inline:calc(var(--gut)*-1);
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.shelf::-webkit-scrollbar{display:none}
+.shelf>*{scroll-snap-align:start;flex:0 0 auto;width:158px}
+
+/* ── FIELDS ──────────────────────────────────────────────────────────────── */
+.field{display:flex;flex-direction:column;gap:7px}
+.label{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-size:var(--t-sm);font-weight:600;color:var(--ink)}
+.hint{font-size:var(--t-sm);color:var(--soft);line-height:1.55}
+.input{min-height:var(--tap);border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--card);
+  color:var(--ink);font:inherit;padding:10px 14px;width:100%;text-align:start}
+.input:focus-visible{outline:2px solid var(--acc);outline-offset:1px;border-color:var(--acc)}
+select.input{appearance:none;background-image:none}
+/* OTP: LTR inside an RTL page, because a code is a sequence of Western digits
+   entered left to right even by someone typing Arabic. Getting this wrong is
+   the classic Arabic-app bug. */
+.otp{display:flex;gap:9px;direction:ltr;justify-content:center}
+.otp input{width:46px;height:58px;text-align:center;font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;font-size:24px;
+  border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+.otp input:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+
+.choice{display:flex;align-items:center;gap:12px;min-height:var(--tap);width:100%;
+  padding:12px 16px;border-radius:var(--r-sm);border:1.5px solid var(--line);
+  background:var(--card);color:var(--ink);font:inherit;text-align:start;cursor:pointer;
+  transition:border-color 160ms var(--ease),background 160ms var(--ease)}
+.choice[aria-pressed="true"]{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 8%,var(--card))}
+.choice .tick{margin-inline-start:auto;color:var(--acc);opacity:0}
+.choice[aria-pressed="true"] .tick{opacity:1}
+
+.slider{width:100%;appearance:none;height:34px;background:transparent;cursor:pointer}
+.slider::-webkit-slider-runnable-track{height:5px;border-radius:3px;background:var(--line)}
+.slider::-webkit-slider-thumb{appearance:none;width:30px;height:30px;border-radius:50%;background:var(--acc);
+  border:3px solid var(--card);margin-top:-13px;box-shadow:0 1px 5px rgba(0,0,0,.18)}
+.slider::-moz-range-track{height:5px;border-radius:3px;background:var(--line)}
+.slider::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--acc);border:3px solid var(--card)}
+
+/* ── PROGRESS ────────────────────────────────────────────────────────────────
+   A bar is always a DEBT DECREASING TOWARD ZERO, never a score accumulating.
+   That distinction is the difference between an app that helps and an app that
+   keeps count of your sins. Every ring in the product is scoped to a day or a
+   week, never to the lifetime debt: a ring implies a closable goal, and a
+   lifetime ring at 4% is an accusation.                                      */
+.bar{height:7px;border-radius:4px;background:var(--card2);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--acc);border-radius:4px;transform-origin:right center}
+.steps{display:flex;gap:5px}
+.steps>i{height:3px;flex:1;border-radius:2px;background:var(--line)}
+.steps>i[data-on]{background:var(--acc)}
+
+/* ── BADGE / TAG ─────────────────────────────────────────────────────────── */
+.tag{display:inline-flex;align-items:center;gap:6px;font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-size:12px;font-weight:600;
+  padding:5px 11px;border-radius:var(--r-pill);background:var(--card2);color:var(--soft)}
+.tag-acc{background:color-mix(in srgb,var(--acc) 13%,transparent);color:var(--acc)}
+.tag-on-head{background:color-mix(in srgb,var(--head-ink) 16%,transparent);color:var(--head-ink)}
+
+/* ── SHEET ───────────────────────────────────────────────────────────────── */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:60;opacity:0;transition:opacity 220ms var(--ease)}
+.scrim[data-open]{opacity:1}
+.sheet{position:fixed;inset-block-end:0;inset-inline:0;max-width:var(--col);margin-inline:auto;z-index:61;
+  background:var(--card);border-start-start-radius:var(--r-lg);border-start-end-radius:var(--r-lg);
+  padding:10px var(--gut) calc(20px + env(safe-area-inset-bottom));
+  max-height:86dvh;overflow-y:auto;box-shadow:0 -12px 40px rgba(0,0,0,.20)}
+.sheet-grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 14px}
+
+/* ── SWATCH ──────────────────────────────────────────────────────────────── */
+.swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.sw{display:flex;align-items:center;gap:11px;padding:10px;border-radius:var(--r-sm);
+  border:1.5px solid var(--line);background:var(--card);cursor:pointer;text-align:start;color:var(--ink);font:inherit}
+.sw[aria-pressed="true"]{border-color:var(--acc)}
+.sw-chip{width:42px;height:42px;border-radius:11px;flex:none;position:relative;overflow:hidden;border:1px solid rgba(0,0,0,.12)}
+.sw-chip i{position:absolute;inset-block-end:0;inset-inline:0;height:40%;background:#fff}
+.sw-name{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:600;font-size:var(--t-sm);display:block}
+.sw-meta{font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;font-size:10px;color:var(--soft);letter-spacing:.04em}
+
+/* ── THE TWO FIXED GROUNDS ───────────────────────────────────────────────── */
+/* الوثيقة — the document register. Justified matn, a margin rail, numbered
+   articles, no gold. A will is a legal instrument and should look like one. */
+body[data-ground="doc"]{--r:10px;--r-sm:8px;--r-lg:12px}
+body[data-ground="doc"] .card{border-width:1px}
+body[data-ground="doc"] .head{border-end-start-radius:0;border-end-end-radius:0;
+  border-block-end:1px solid var(--line);padding-block-end:24px}
+body[data-ground="doc"] .lift{margin-block-start:14px}
+body[data-ground="doc"] .head .icon-btn,body[data-ground="shroud"] .head .icon-btn{background:transparent;border-color:var(--line);color:var(--ink)}
+body[data-ground="doc"] .display,body[data-ground="doc"] .h1,body[data-ground="doc"] .h2{letter-spacing:0}
+.matn{line-height:1.95;text-align:justify;text-justify:inter-word}
+.article{display:grid;grid-template-columns:30px 1fr;gap:12px;padding-block:12px;border-block-end:1px solid var(--line)}
+.article .no{font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;font-size:12px;color:var(--soft);padding-top:4px}
+
+/* الكفن — iḥtiḍār. Near-white, huge whitespace, no chrome, ≥20px body, ≥56px
+   targets, one green element. WHITE IS THE COLOUR OF DEATH HERE, NOT BLACK:
+   white is the kafan, and black is makrūh outside the narrow mourning
+   exception, so a black screen would be both wrong and jarring. Restraint IS
+   the design on this ground — it is also the least noisy thing to read while
+   your hands are shaking. */
+body[data-ground="shroud"]{--t-base:20px;--tap:56px;--lh:1.8}
+body[data-ground="shroud"] .card{border:0;padding:0;background:transparent}
+body[data-ground="shroud"] .head{background:var(--head);color:var(--head-ink);
+  border-end-start-radius:0;border-end-end-radius:0;padding-block-end:20px}
+body[data-ground="shroud"] .head-orn,body[data-ground="shroud"] .orn-kufic{display:none}
+body[data-ground="shroud"] .lift{margin-block-start:0}
+body[data-ground="shroud"] .tabs{background:var(--card)}
+body[data-ground="shroud"] .wrap{padding-inline:26px}
+[data-motion="still"] *{animation:none!important;transition:none!important}
+
+/* ── LAYOUT AXIS ─────────────────────────────────────────────────────────────
+   Layout and palette are ORTHOGONAL. That is the difference between seventeen
+   skins and a skin system: a palette is a palette, and structure lives on its
+   own axis. The previous version bundled one of eight home arrangements into
+   each of seventeen palettes, which is exactly why all seventeen looked like
+   the same app.                                                              */
+body[data-layout="manuscript"]{--r:0;--r-sm:0;--r-lg:0}
+body[data-layout="manuscript"] .card{border-inline:0;border-block-start:0;border-block-end:1px solid var(--line);padding-inline:0;background:transparent}
+body[data-layout="manuscript"] .wrap{padding-inline:calc(var(--gut) + 22px)}
+body[data-layout="manuscript"] .head{border-radius:0}
+
+body[data-layout="register"]{--r:0;--r-sm:0}
+body[data-layout="register"] .card{border-inline:0;border-radius:0;padding-inline:0;background:transparent}
+body[data-layout="register"] .bento{grid-template-columns:1fr;gap:0}
+body[data-layout="register"] .bento .b-hero,body[data-layout="register"] .bento .b-wide{grid-column:span 1;grid-row:span 1}
+
+body[data-layout="editorial"]{--r:8px}
+body[data-layout="editorial"] .sec{margin-block-start:44px}
+body[data-layout="editorial"] .h1{font-size:var(--t-2xl)}
+body[data-layout="editorial"] .card{border:0;padding-inline:0;background:transparent;border-block-end:1px solid var(--line);border-radius:0}
+
+body[data-layout="khat"]{--r:0}
+body[data-layout="khat"] .card{border:0;background:transparent;padding-inline:0}
+body[data-layout="khat"] .wrap{padding-inline:30px}
+body[data-layout="khat"] .h2{font-size:var(--t-xl)}
+
+body[data-layout="brut"]{--r:0;--r-sm:0;--r-lg:0;--r-pill:0}
+body[data-layout="brut"] .card,body[data-layout="brut"] .choice,body[data-layout="brut"] .input{border-width:2.5px;box-shadow:5px 5px 0 0 var(--ink)}
+body[data-layout="brut"] .btn{border:2.5px solid var(--ink);box-shadow:4px 4px 0 0 var(--ink)}
+body[data-layout="brut"] .btn:active{transform:translate(-3px,3px);box-shadow:none}
+
+body[data-layout="portal"] .card{border-radius:var(--r-lg) var(--r-lg) var(--r-sm) var(--r-sm)}
+body[data-layout="portal"] .pill{border-start-start-radius:30px;border-start-end-radius:30px}
+body[data-layout="portal"] .sw-chip{border-start-start-radius:20px;border-start-end-radius:20px}
+
+body[data-layout="bento"] .stack>.card{border-radius:var(--r-lg)}
+
+/* ── SURFACE AXIS ────────────────────────────────────────────────────────── */
+body[data-surface="flat"] .card{box-shadow:none;border-color:transparent;background:var(--card2)}
+body[data-surface="hard"] .card{box-shadow:4px 4px 0 0 var(--line);border-width:1.5px}
+body[data-surface="none"] .card{border-color:transparent;box-shadow:none;background:transparent;padding-inline:0}
+body[data-surface="glass"] .card{backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--card) 82%,transparent);box-shadow:0 2px 18px rgba(0,0,0,.05)}
+
+/* ── UTILITY ─────────────────────────────────────────────────────────────── */
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+.empty{text-align:center;padding:40px 20px;color:var(--soft)}
+.empty .ic{width:36px;height:36px;color:var(--acc);margin-block-end:12px}
+.astro-label{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-size:13px;font-weight:600;fill:currentColor}
+.dotgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.dot{aspect-ratio:1;border-radius:3px;background:var(--card2)}
+.dot[data-v="1"]{background:var(--acc)}
+.dot[data-v="p"]{background:color-mix(in srgb,var(--acc) 45%,var(--card2))}
+.dot[data-v="x"]{background:var(--card2);border:1px solid var(--line)}

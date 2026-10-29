@@ -1,0 +1,99 @@
+/* extra.css — additions for the three doors. style.css is already past the
+   300-line cap, so new rules live here instead of quietly retiring the rule.
+   ZERO colour literals: every colour is a token from palettes.js. */
+
+/* The update offer: the app talking, not an advert. */
+.upd{position:fixed;inset-inline:12px;inset-block-end:calc(84px + env(safe-area-inset-bottom));z-index:80;
+  background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:14px 16px;
+  box-shadow:0 10px 30px color-mix(in srgb,var(--ink) 18%,transparent);display:flex;align-items:center;gap:12px;justify-content:space-between}
+.upd p{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:600;font-size:14px}
+
+.install{border:1px dashed color-mix(in srgb,var(--acc) 45%,var(--line))}
+.card-preview{background:color-mix(in srgb,var(--acc) 7%,var(--card))}
+
+/* Word-level difference: struck and marked, never coloured red. */
+.diff{line-height:2;font-size:16px;white-space:pre-wrap}
+.diff del{text-decoration:line-through;text-decoration-thickness:2px;color:var(--soft);
+  background:color-mix(in srgb,var(--soft) 12%,transparent);border-radius:4px;padding-inline:2px}
+.diff ins{text-decoration:none;color:var(--ink);font-weight:600;
+  background:color-mix(in srgb,var(--acc) 22%,transparent);border-radius:4px;padding-inline:2px;
+  box-shadow:inset 0 -2px 0 var(--acc)}
+.tag-warn{background:color-mix(in srgb,var(--ink) 10%,transparent);color:var(--ink)}
+button.tag{border:0;cursor:pointer;min-height:44px;padding-inline:14px}
+button.tag[disabled]{cursor:default;opacity:.8}
+textarea.input{width:100%;resize:vertical;min-height:96px;font:inherit}
+.tab b.n{font-size:11px;background:var(--acc);color:var(--acc-ink);border-radius:99px;padding:0 6px;margin-inline-start:2px}
+.btn-sm{min-width:44px}
+
+/* ── عند الاحتضار: floating cards on a ring ─────────────────────────────── */
+.ih-stage{position:relative;height:262px;margin-top:4px;outline:none;perspective:1100px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.ih-orbit{position:absolute;inset:0;will-change:transform,opacity}
+.ih-ring{position:absolute;left:50%;top:50%;width:150px;height:186px;margin:-93px 0 0 -75px;transform-style:preserve-3d;will-change:transform}
+.ih-card{box-sizing:border-box;position:absolute;inset:0;border-radius:24px;padding:16px 14px;cursor:grab;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--card);border:1px solid var(--line);color:var(--ink);
+  box-shadow:0 16px 36px color-mix(in srgb,var(--ink) 14%,transparent);transition:border-color .25s,box-shadow .25s,opacity .25s;opacity:.72}
+.ih-card[data-front]{opacity:1;border-color:var(--acc);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--acc) 35%,transparent),0 22px 48px color-mix(in srgb,var(--ink) 20%,transparent)}
+.ih-stage:focus-visible{outline:3px solid var(--acc);outline-offset:4px;border-radius:24px}
+.ih-stage.is-drag .ih-card{cursor:grabbing}
+.ih-tap{font:600 11.5px/1 Kufi,'Noto Kufi Arabic',sans-serif;color:var(--acc);opacity:0;transition:opacity .25s}
+.ih-card[data-front] .ih-tap{opacity:1}
+.ih-num{position:absolute;inset-block-start:12px;inset-inline-start:14px;font-size:12px;color:var(--soft)}
+.ih-ic{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;flex:none;
+  color:var(--acc);background:color-mix(in srgb,var(--acc) 9%,var(--card))}
+.ih-ic-lg{width:60px;height:60px}
+.ih-t{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:700;font-size:16px;line-height:1.45;text-wrap:balance}
+@media (prefers-reduced-motion:no-preference){
+  .ih-stage:not(.is-still):not(.is-drag) .ih-orbit{animation:ih-float 6s ease-in-out infinite}
+}
+@keyframes ih-float{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.ih-now{text-align:center;margin-top:4px;display:flex;flex-direction:column;align-items:center}
+.ih-dots{display:flex;gap:6px;margin-top:16px}
+.ih-dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:width .25s,background .25s}
+.ih-dots i[data-on]{width:22px;border-radius:4px;background:var(--acc)}
+.ih-row{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:72px;padding:10px 14px;cursor:pointer;
+  border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink)}
+.ih-row:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.ih-sheet{max-height:88vh;overflow-y:auto;padding-block-end:calc(16px + env(safe-area-inset-bottom))}
+.ih-body{margin-top:18px;touch-action:pan-y}
+.ih-intro{font-size:18px;line-height:1.9;color:var(--soft);margin-bottom:6px}
+.ih-item{font-size:20px;line-height:1.95;padding:14px 16px;margin-top:10px;border-radius:16px;
+  background:color-mix(in srgb,var(--acc) 6%,var(--card));border:1px solid var(--line)}
+.ih-foot{gap:10px;margin-top:20px;position:sticky;inset-block-end:0;background:var(--card);padding-block:10px 0}
+
+/* ── knowledge pages ───────────────────────────────────────────────────── */
+.hadith{margin:16px 0 0;padding:14px 16px;border-inline-start:3px solid var(--acc);border-radius:12px;background:var(--card2)}
+.hadith cite{display:block;margin-top:8px;font-style:normal}
+.page-note{margin-top:14px;padding:12px 14px;border:1px dashed var(--line);border-radius:12px}
+
+/* `hidden` means hidden, even on elements whose class sets a display. */
+[hidden]{display:none!important}
+
+/* ── عند الاحتضار: the opening, before the cards ─────────────────────────── */
+.ih-hero{display:flex;flex-direction:column;gap:12px;padding-block:14px 0}
+.ih-verse{margin:0;text-align:center;padding:10px 12px 8px;position:relative}
+.ih-verse::before,.ih-verse::after{content:"";position:absolute;inset-inline:22%;height:1px;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--acc) 45%,transparent),transparent)}
+.ih-verse::before{inset-block-start:0}.ih-verse::after{inset-block-end:0}
+.ih-verse .verse{font-size:24px;line-height:1.9;height:auto;border:0;background:none;padding:0;margin:0;text-align:center;color:var(--ink)}
+.ih-verse .verse-ref{position:static;display:block;margin-top:8px;text-align:center;font:600 12px/1.4 Kufi,'Noto Kufi Arabic',sans-serif;letter-spacing:0;color:var(--soft)}
+.ih-calm{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:20px;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 9%,var(--card)),var(--card));
+  border:1px solid color-mix(in srgb,var(--acc) 20%,var(--line));
+  box-shadow:0 10px 28px color-mix(in srgb,var(--acc) 10%,transparent)}
+.ih-calm-ic{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--acc);
+  background:var(--card);border:1px solid color-mix(in srgb,var(--acc) 25%,var(--line))}
+.ih-calm-txt{min-width:0}
+.ih-calm-t{display:block;font:700 17px/1.35 Kufi,'Noto Kufi Arabic',sans-serif;color:var(--acc)}
+.ih-calm-txt p{font-size:15.5px;line-height:1.75;color:var(--ink);margin-top:2px}
+.ih-q{font-family:Kufi,'Noto Kufi Arabic',sans-serif;font-weight:800;font-size:23px;line-height:1.45;text-wrap:balance;color:var(--ink);margin-top:2px}
+.ih-facts{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.ih-facts li{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;
+  background:var(--card2);color:var(--ink);font:600 13px/1.2 Kufi,'Noto Kufi Arabic',sans-serif}
+.ih-facts li svg{color:var(--acc);flex:none}
+.ih-how{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;color:var(--soft);font-size:14px;text-align:center}
+.ih-swipe{position:relative;width:46px;height:22px;flex:none;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--acc) 45%,var(--line))}
+.ih-swipe i{position:absolute;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--acc);left:5px}
+@media (prefers-reduced-motion:no-preference){ .ih-swipe i{animation:ih-swipe 2.4s cubic-bezier(.45,0,.2,1) infinite} }
+@keyframes ih-swipe{0%,15%{transform:translateX(0);opacity:1}55%{transform:translateX(24px);opacity:1}70%,100%{transform:translateX(24px);opacity:0}}

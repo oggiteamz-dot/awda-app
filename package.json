@@ -1,0 +1,14 @@
+{
+  "name": "awda-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "عَوْدة — three doors (users, scholars, admins), one database. Plain ES modules; the build only copies what each door reaches.",
+  "scripts": {
+    "icons": "node scripts/icons.mjs",
+    "build": "node scripts/build.mjs",
+    "gates": "node scripts/gates.mjs",
+    "walk": "node scripts/walk.mjs"
+  },
+  "devDependencies": { "playwright": "1.56.0" }
+}

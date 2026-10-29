@@ -1,0 +1,167 @@
+/* ===========================================================================
+   عَوْدة / AWDA — layout.css — THE SIX THAT WERE NEVER BUILT.
+
+   WHY THIS FILE EXISTS AT ALL, AND WHY IT IS NOT IN style.css.
+   Twelve layouts were declared in layouts.js. Six of them had CSS; five had
+   literally none (cards · shelves · path · ring · sheets) and portal had three
+   rules that rounded some corners without restructuring anything. So half the
+   axis was a name and a note. Anyone comparing the twelve was comparing six
+   designs against six aliases of the default.
+
+   style.css was already 396 lines against a stated hard cap of 300. Adding six
+   layouts to it would have pushed it past 550 and quietly retired the rule, so
+   the six live here instead and both files stay honest.
+
+   SELECTORS ARE WRITTEN [data-layout="x"], NOT body[data-layout="x"].
+   The attribute can then sit on ANY ancestor, which is what lets a review
+   surface render twelve layouts on one page side by side. On the app itself it
+   still lands on <body> and behaves identically.
+
+   NO COLOUR IN THIS FILE. Not one hex. Every value is a var() from palettes.js,
+   which remains the only file in the product where a colour may exist.
+   Logical properties only — `start` is the right-hand side.
+   =========================================================================== */
+
+/* ── البطاقات · CARDS — the reference the others are measured against ────────
+   Every block is a discrete object with air around it. The bento hero stops
+   spanning, so nothing is ranked by size and the eye is free to compare. This
+   is the layout to pick when nothing on the screen is more important than
+   anything else. Best on المعرفة, and the fair baseline for الرئيسيّة.      */
+[data-layout="cards"]{--r:18px;--r-sm:14px;--r-lg:22px}
+[data-layout="cards"] .stack{gap:14px}
+[data-layout="cards"] .sec{margin-block-start:30px}
+[data-layout="cards"] .card{box-shadow:0 1px 2px var(--grid),0 8px 22px -14px var(--grid)}
+[data-layout="cards"] .bento{grid-template-columns:1fr 1fr;gap:14px}
+[data-layout="cards"] .bento .b-hero{grid-column:span 2;grid-row:span 1}
+[data-layout="cards"] .bento .b-wide{grid-column:span 2}
+/* a register row is a row inside a list; here the list dissolves into cards */
+[data-layout="cards"] .reg{gap:10px}
+[data-layout="cards"] .reg-row{background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-sm);padding:12px 14px;min-height:var(--tap)}
+[data-layout="cards"] .reg-row:last-child{border-block-end:1px solid var(--line)}
+[data-layout="cards"] .card-flush{padding:0;background:transparent;border:0;box-shadow:none}
+
+/* ── الرفوف · SHELVES — a row per group, scrolled sideways ───────────────────
+   Vertical space is the scarcest thing on a phone, so anything that is a SET
+   rather than a SEQUENCE goes sideways. Scroll-snap makes it feel like a shelf
+   and not a slip. Best on المعرفة, where the user is browsing, never on القضاء,
+   where hiding rows off-screen would hide a debt.                            */
+[data-layout="shelves"] .bento{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scrollbar-width:none;padding-block-end:4px;
+  margin-inline:calc(var(--gut)*-1);padding-inline:var(--gut)}
+[data-layout="shelves"] .bento::-webkit-scrollbar{display:none}
+[data-layout="shelves"] .bento>*{flex:0 0 auto;width:176px;scroll-snap-align:start}
+[data-layout="shelves"] .bento .b-hero{width:248px;grid-column:auto;grid-row:auto}
+[data-layout="shelves"] .bento .b-wide{width:248px;grid-column:auto}
+[data-layout="shelves"] .reg{flex-direction:row;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;margin-inline:calc(var(--gut)*-1);padding-inline:var(--gut)}
+[data-layout="shelves"] .reg::-webkit-scrollbar{display:none}
+[data-layout="shelves"] .reg-row{flex:0 0 auto;width:150px;flex-direction:column;align-items:flex-start;
+  gap:6px;scroll-snap-align:start;border-block-end:0;border:1px solid var(--line);
+  border-radius:var(--r-sm);padding:12px;min-height:96px}
+[data-layout="shelves"] .reg-row .fig{margin-inline-start:0;margin-block-start:auto}
+[data-layout="shelves"] .sec{margin-block-start:28px}
+
+/* ── المسار · PATH — the day as a line you are standing on ───────────────────
+   A vertical spine on the start edge with a node per item, and the counter is
+   real: CSS counts the rows, so a row added in JS is numbered without anyone
+   remembering to number it. The one layout that says WHERE YOU ARE rather than
+   WHAT THERE IS, which is why it is the right one for الصلاة.
+   Reversible decision: the spine sits on the start (right) edge rather than
+   centred, because a centred spine halves the usable width of an Arabic line. */
+[data-layout="path"] .stack,[data-layout="path"] .reg{position:relative;counter-reset:node}
+[data-layout="path"] .stack::before,[data-layout="path"] .reg::before{content:"";position:absolute;
+  inset-block:14px;inset-inline-start:11px;width:2px;background:var(--line);border-radius:2px}
+[data-layout="path"] .stack>.card,[data-layout="path"] .reg-row{position:relative;
+  margin-inline-start:38px;counter-increment:node}
+[data-layout="path"] .stack>.card::before,[data-layout="path"] .reg-row::before{
+  content:counter(node);position:absolute;inset-inline-start:-38px;inset-block-start:14px;
+  width:24px;height:24px;border-radius:var(--r-pill);background:var(--card);
+  border:2px solid var(--line);color:var(--soft);
+  font-family:Mono,'IBM Plex Mono',ui-monospace,monospace;font-size:11px;
+  display:grid;place-items:center;font-variant-numeric:tabular-nums}
+/* the node the user is on. `data-now` already exists on .pill, reused here. */
+[data-layout="path"] .reg-row[data-now="1"]::before,[data-layout="path"] .card[data-now="1"]::before{
+  background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+[data-layout="path"] .reg-row{border-block-end:0;padding-block:10px}
+[data-layout="path"] .bento{grid-template-columns:1fr;gap:10px}
+[data-layout="path"] .bento .b-hero,[data-layout="path"] .bento .b-wide{grid-column:span 1;grid-row:span 1}
+
+/* ── الحلقة · RING — one number, then doors ──────────────────────────────────
+   Everything that is not the single figure becomes a door: full width, one
+   line, a chevron, nothing competing. The ring around the figure is drawn with
+   two borders rather than an SVG so it inherits the palette and costs nothing.
+   Best on القضاء — a debt is one number and a small set of ways to act on it.
+   Reversible decision: the chevron points to the START edge (left in RTL is
+   "forward"), matching the rule that forward chevrons point LEFT.            */
+[data-layout="ring"] .n-hero{display:grid;place-items:center;inline-size:164px;block-size:164px;
+  margin-inline:auto;border-radius:var(--r-pill);
+  border:3px solid color-mix(in srgb,currentColor 26%,transparent);
+  box-shadow:inset 0 0 0 11px color-mix(in srgb,currentColor 9%,transparent);
+  font-size:var(--t-3xl)}
+/* A door is flat, full width and has a chevron. It is NOT display:flex — the first
+   version made every card a flex row, which collapsed the internal layout of any
+   card holding more than one block and overlapped its own text. The chevron is
+   positioned instead, so a card's own contents are left alone. */
+[data-layout="ring"] .stack>.card,[data-layout="ring"] .reg-row{border-radius:0;border-inline:0;
+  border-block-start:0;border-block-end:1px solid var(--line);background:transparent;
+  padding-inline:0;min-height:58px;box-shadow:none;position:relative;
+  padding-inline-start:22px}
+[data-layout="ring"] .card-tap::after{content:"";position:absolute;
+  inset-inline-start:2px;inset-block-start:calc(50% - 5px);
+  inline-size:8px;block-size:8px;
+  border-inline-start:2px solid var(--soft);border-block-end:2px solid var(--soft);
+  transform:rotate(45deg);opacity:.65}
+[data-layout="ring"] .reg-row .fig{margin-inline-start:0}
+[data-layout="ring"] .bento{grid-template-columns:1fr;gap:0}
+[data-layout="ring"] .bento .b-hero,[data-layout="ring"] .bento .b-wide{grid-column:span 1;grid-row:span 1}
+[data-layout="ring"] .bento>*{border-radius:0;border-inline:0;border-block-start:0}
+
+/* ── الطبقات · SHEETS — a fixed ground, and the page riding over it ──────────
+   The saturated block stops scrolling away and becomes the ground the content
+   sits ON, which is the one structural idea in the set that reads as depth
+   rather than as arrangement. The grab handle is not decoration: it is the
+   affordance that explains why the surface has an edge.
+   Reversible decision: the head is not `position:sticky` — a sticky head fights
+   the tab bar for the same 44px on a small phone. It stays in flow and the
+   content lifts further over it instead.                                     */
+[data-layout="sheets"] .head{padding-block-end:74px}
+[data-layout="sheets"] .lift{margin-block-start:-58px;background:var(--bg);
+  border-start-start-radius:26px;border-start-end-radius:26px;
+  padding-block-start:8px;padding-block-end:26px;
+  box-shadow:0 -14px 34px -18px var(--grid)}
+[data-layout="sheets"] .lift::before{content:"";display:block;inline-size:38px;block-size:4px;
+  border-radius:2px;background:var(--line);margin:0 auto 16px}
+[data-layout="sheets"] .card{box-shadow:0 2px 10px -6px var(--grid)}
+[data-layout="sheets"] .sec{margin-block-start:24px}
+
+/* ── المنبر · PORTAL — arches, and they have to be real ──────────────────────
+   Previously three rules that rounded two corners, which is a radius, not an
+   arch. An arch is a SHAPE: the springing line is where the curve begins, and
+   above it the sides are vertical. `border-radius: 50% 50% 0 0 / 34% 34% 0 0`
+   gives a true horseshoe rise instead of a rounded rectangle.
+   Muqarnas and the girih rosette are already drawn in ornament.js, so this
+   layout only supplies the structure they hang in. Best on الوصيّة and
+   الاحتضار, where a ceremonial register is the honest one.                   */
+[data-layout="portal"] .head{border-end-start-radius:50%;border-end-end-radius:50%;
+  padding-block-end:52px}
+body[data-layout="portal"] .head{border-end-start-radius:50%;border-end-end-radius:50%}
+[data-layout="portal"] .head::after{content:"";position:absolute;inset-block-end:0;inset-inline:0;
+  block-size:34px;background:var(--bg);
+  border-start-start-radius:50% 100%;border-start-end-radius:50% 100%}
+[data-layout="portal"] .card,body[data-layout="portal"] .card{
+  border-start-start-radius:46% 26%;border-start-end-radius:46% 26%;
+  border-end-start-radius:var(--r-sm);border-end-end-radius:var(--r-sm);
+  padding-block-start:22px}
+[data-layout="portal"] .bento .b-hero{padding-block-start:28px}
+[data-layout="portal"] .btn{border-start-start-radius:40% 34%;border-start-end-radius:40% 34%}
+[data-layout="portal"] .sec-head{justify-content:center;text-align:center}
+[data-layout="portal"] .n-hero{text-align:center;display:block}
+
+/* ── THE FLOOR EVERY LAYOUT KEEPS ────────────────────────────────────────────
+   A layout may change any arrangement it likes; it may not shrink a target
+   below the tap floor, and it may not introduce a horizontal page scroll. The
+   shelves layout deliberately scrolls its OWN rows sideways — that is a
+   container, not the page — so the rule is written on the page, not on `*`.  */
+[data-layout] .btn,[data-layout] .choice,[data-layout] .icon-btn{min-height:var(--tap)}
+[data-layout] .reg-row{min-height:44px}

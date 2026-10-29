@@ -1,0 +1,44 @@
+{
+  "app": {
+    "title": "عَوْدة",
+    "short": "عَوْدة",
+    "description": "حساب ما فات، ووصيّة تُكتَب على المهل، وما يُقال عند الاحتضار.",
+    "entry": "src/app.js",
+    "palette": "zumurrud",
+    "theme": "#0B6144",
+    "background": "#F3F7F5",
+    "icon_bg": "#0B6144",
+    "icon_ink": "#F3F7F5",
+    "index": true
+  },
+  "desk": {
+    "title": "مكتب العالِم",
+    "short": "المكتب",
+    "description": "مكتب العلماء: التطبيق كما يراه الناس، مع الملاحظات وكتابة الصفحات.",
+    "entry": "src/desk-main.js",
+    "palette": "lazuward",
+    "theme": "#1E3D7E",
+    "background": "#F4F6FA",
+    "icon_bg": "#1E3D7E",
+    "icon_ink": "#F4F6FA",
+    "index": false,
+    "css": [
+      "src/staff/staff.css"
+    ]
+  },
+  "console": {
+    "title": "لوحة الإدارة",
+    "short": "الإدارة",
+    "description": "لوحة الإدارة: التطبيق كما يراه الناس، مع التعديل المباشر والموافقات.",
+    "entry": "src/console-main.js",
+    "palette": "hibr",
+    "theme": "#0C3B2C",
+    "background": "#14181B",
+    "icon_bg": "#14181B",
+    "icon_ink": "#57D8A2",
+    "index": false,
+    "css": [
+      "src/staff/staff.css"
+    ]
+  }
+}
