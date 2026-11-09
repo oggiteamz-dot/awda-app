@@ -90,7 +90,7 @@ const SCENES = [
   { door: 'console', name: 'console-owner', signed: true, roles: ['owner'], routes: ['#/', '#/queue', '#/people', '#/requests', '#/errors', '#/account'] },
 ];
 
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const browser = await chromium.launch();
 const results = [];
 for (const sc of SCENES) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: 'ar' });

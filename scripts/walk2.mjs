@@ -161,7 +161,7 @@ const SCENES = [
     { hash: '#/', shot: 'signin', check: expectText('اسم المستخدم') },
   ] },
   { door: 'desk', name: 'desk-scholar', user: SCHOLAR, roles: ['writer'], steps: [
-    { hash: '#/home', shot: 'home-view', check: async (p) => ({ ok: (await p.locator('.sbar [data-m]').count()) === 2, what: 'scholar has view + note only (no edit)' }) },
+    { hash: '#/home', shot: 'home-view', check: async (p) => ({ ok: (await p.locator('.sbar [data-m]').count()) === 3, what: 'scholar has view + propose-edit + note (since 29 Oct scholars propose wording)' }) },
     { act: tap('.sbar [data-m="note"]'), hash: null, shot: 'home-note-mode', viewport: true, check: expectText('وضع الملاحظات') },
     { hash: '#/ihtidar', wait: 1600, shot: 'ihtidar-note-mode', check: async (p) => ({ ok: (await p.locator('[data-ed]').count()) > 5, what: 'lines are marked tappable' }) },
     { act: async (p) => { await p.locator('.sbar [data-m="view"]').click(); await drag('[data-stage]', 150)(p);
@@ -204,7 +204,7 @@ const SCENES = [
   ] },
 ];
 
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const browser = await chromium.launch();
 const results = [];
 for (const sc of SCENES) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: 'ar' });

@@ -11,7 +11,7 @@ import { join, resolve, dirname } from 'node:path';
 
 const ROOT = resolve(dirname(new URL(import.meta.url).pathname), '..');
 const cases = [['app', 8111, '#/ihtidar', 'وضعيّة المحتضَر'], ['desk', 8112, '#/', 'الدخول'], ['console', 8113, '#/', 'الدخول']];
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const browser = await chromium.launch();
 let bad = 0;
 for (const [door, port, hash, expect] of cases) {
   const srv = spawn('python3', ['-m', 'http.server', String(port), '-d', join(ROOT, 'dist', door)], { stdio: 'ignore' });

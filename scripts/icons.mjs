@@ -15,7 +15,7 @@ const DOORS = JSON.parse(readFileSync(join(ROOT, 'doors.json'), 'utf8'));
 globalThis.document = { querySelector: () => null };
 const { rosette12 } = await import(join(ROOT, 'src/core/ornament.js'));
 
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' }).catch(() => chromium.launch());
+const browser = await chromium.launch().catch(() => chromium.launch());
 const page = await browser.newPage();
 for (const [key, d] of Object.entries(DOORS)) {
   const dir = join(ROOT, 'build/icons', key); mkdirSync(dir, { recursive: true });
