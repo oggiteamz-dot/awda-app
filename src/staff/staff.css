@@ -7,7 +7,7 @@
   background:color-mix(in srgb,var(--ink) 92%,transparent);color:var(--card);
   box-shadow:0 12px 32px color-mix(in srgb,var(--ink) 30%,transparent);backdrop-filter:blur(12px)}
 .sbar-seg{display:flex;gap:2px;flex:1;min-width:0;background:color-mix(in srgb,var(--card) 12%,transparent);border-radius:999px;padding:3px}
-.sbar-seg button{all:unset;box-sizing:border-box;flex:1;min-height:40px;border-radius:999px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;
+.sbar-seg button{all:unset;box-sizing:border-box;flex:1;min-height:44px;border-radius:999px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;
   font:600 13px/1 Kufi,'Noto Kufi Arabic',sans-serif;color:color-mix(in srgb,var(--card) 80%,transparent)}
 .sbar-seg button[aria-checked="true"]{background:var(--card);color:var(--ink)}
 .sbar-btn{all:unset;box-sizing:border-box;position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--card);flex:none}
@@ -50,7 +50,7 @@ body[data-staff-mode] #view{padding-bottom:70px}
 
 /* Page editor. */
 .seg{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--card2)}
-.seg button{all:unset;box-sizing:border-box;flex:1;min-height:40px;border-radius:999px;text-align:center;cursor:pointer;font:600 13px/40px Kufi,'Noto Kufi Arabic',sans-serif;color:var(--soft)}
+.seg button{all:unset;box-sizing:border-box;flex:1;min-height:44px;border-radius:999px;text-align:center;cursor:pointer;font:600 13px/44px Kufi,'Noto Kufi Arabic',sans-serif;color:var(--soft)}
 .seg button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 4px color-mix(in srgb,var(--ink) 12%,transparent)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{all:unset;box-sizing:border-box;min-height:38px;padding:0 12px;border-radius:999px;border:1px solid var(--line);display:inline-flex;align-items:center;gap:4px;
